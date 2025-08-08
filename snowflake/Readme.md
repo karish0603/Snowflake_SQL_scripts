@@ -1,11 +1,11 @@
-[README.md](https://github.com/user-attachments/files/21690655/README.md)
+
 # E-commerce Data Warehouse Setup in Snowflake
 
 This project sets up a **sample e-commerce data warehouse** in Snowflake with multiple databases, schemas, and tables to manage orders, returns, payments, and deliveries. It demonstrates how to create and insert sample data into transient and permanent tables for analytics and reporting.
 
----
 
-## 📌 Features
+
+## Features
 
 - **Warehouse Creation** with auto-suspend and auto-resume
 - **Multiple Databases** (`amazon`, `flipcart`)
@@ -14,11 +14,11 @@ This project sets up a **sample e-commerce data warehouse** in Snowflake with mu
 - **Sample Data Insertion**
 - **Simple Queries** to verify data
 
----
 
-## 🗂 Project Structure
 
-```
+##  Project Structure
+
+
 ecommerce_dw/
 │
 ├── amazon/
@@ -34,25 +34,25 @@ ecommerce_dw/
 │       └── delivery_status (permanent table)
 │
 └── README.md
-```
 
----
 
-## ⚙️ Steps in the Script
+
+
+## Steps in the Script
 
 ### 1. Create Snowflake Warehouse
-```sql
+
 CREATE WAREHOUSE ecommerce
 WITH warehouse_size = 'medium'
 AUTO_SUSPEND = 100
 AUTO_RESUME = TRUE
 INITIALLY_SUSPENDED = TRUE;
-```
 
----
+
+
 
 ### 2. Amazon Database
-```sql
+
 CREATE OR REPLACE DATABASE amazon;
 USE DATABASE amazon;
 
@@ -70,7 +70,7 @@ INSERT INTO order_summary VALUES
 (20,'Prakshi','Laptop','2025-07-01'),
 (40,'Priya','Headphone','2025-07-06');
 
--- Returns Schema
+Returns Schema
 CREATE OR REPLACE SCHEMA returns;
 USE SCHEMA returns;
 CREATE OR REPLACE TRANSIENT TABLE return_summary (
@@ -82,12 +82,12 @@ CREATE OR REPLACE TRANSIENT TABLE return_summary (
 INSERT INTO return_summary VALUES
 (1,10,'2025-08-03','Not working'),
 (2,20,'2025-08-06','Battery Not working');
-```
 
----
+
+
 
 ### 3. Flipcart Database
-```sql
+
 CREATE OR REPLACE DATABASE flipcart;
 USE DATABASE flipcart;
 
@@ -118,11 +118,11 @@ INSERT INTO delivery_status VALUES
 (1,'2025-03-01','In-transit'),
 (2,'2025-03-02','Out for delivery'),
 (3,'2025-03-02','Pending');
-```
 
----
 
-## 📊 Sample Output
+
+
+## Sample Output
 
 ### Orders
 | order_id | customer_name | product_name | order_date |
@@ -137,21 +137,21 @@ INSERT INTO delivery_status VALUES
 | 1         | 10       | 2025-08-03  | Not working        |
 | 2         | 20       | 2025-08-06  | Battery Not working|
 
----
 
-## 🚀 How to Run
+
+## How to Run
 1. Log in to your Snowflake account.
 2. Open a **Worksheet**.
 3. Copy and paste the SQL script from `ecommerce_dw.sql`.
 4. Run the commands in sequence.
 5. Verify tables with:
-```sql
+
 SELECT * FROM <table_name>;
-```
 
----
 
-## 📌 Notes
+
+
+##  Notes
 - **Transient tables** are used for `amazon` database to save storage costs for temporary data.
 - **Permanent tables** are used for `flipcart` database for long-term data storage.
 - Auto-suspend helps reduce cost by suspending the warehouse when idle.
