@@ -1,1 +1,79 @@
+create warehouse ecommerce
+with warehouse_size = 'medium'
+auto_suspend = 100
+auto_resume = True
+initially_suspended = true;
+
+create or replace database amazon;
+use database amazon;
+
+create or replace schema orders;
+create or replace schema returns;
+use schema orders;
+
+create or replace transient table order_summary(
+order_id int,
+customer_name STRING,
+product_name STRING,
+order_date DATE
+);
+Insert into order_summary (order_id,customer_name,product_name,order_date)VALUES
+(10,'Sonakshi','Airdpod','2025-08-01'),
+(20,'prakshi','Laptop','2025-07-01'),
+(40,'priya','Headphone','2025-07-06');
+
+select * from order_summary;
+
+use schema returns;
+
+create or replace transient table return_summary(
+return_id int,
+order_id int,
+return_date DATE,
+return_reason STRING
+);
+
+Insert into return_summary(return_id,order_id,return_date,return_reason)VALUES
+(1,10,'2025-08-03','Not working'),
+(2,20,'2025-08-06','Battery Not working');
+
+select * from return_summary;
+
+
+create or replace database flipcart;
+use database flipcart;
+create or replace schema payment;
+create or replace schema delivery;
+
+use schema payment;
+create or replace table payment_summary(
+order_id int,
+payment_id int,
+payment_method String,
+payment_amount int,
+payment_date date
+);
+Insert into payment_summary(order_id,payment_id,payment_method,payment_amount,payment_date)VALUES
+(1,0001,'UPI',1000,'2025-05-01'),
+(2,0002,'credit card',2000,'2025-05-02'),
+(3,0003,'cash',4000,'2025-05-04');
+select * from payment_summary;
+
+
+use schema delivery;
+create or replace table delivery_status(
+order_id int,
+delivery_date date,
+status string
+);
+
+Insert into delivery_status(order_id,delivery_date,status)VALUES
+(1,'2025-03-01','In-transit'),
+(2,'2025-03-02','out for delivery'),
+(3,'2025-03-02','pending');
+
+select * from delivery_status;
+
+
+
 
