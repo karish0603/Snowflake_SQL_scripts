@@ -1,6 +1,6 @@
-**Snowflake SQL Project – E-Commerce Data Warehousing (Amazon & Flipkart)
+#Snowflake SQL Project – E-Commerce Data Warehousing (Amazon & Flipkart)
 
-**📌 Project Overview
+##📌 Project Overview
 This project demonstrates an end-to-end Snowflake SQL setup for a sample E-Commerce data warehouse, including:
 
 Creating a Snowflake warehouse.
