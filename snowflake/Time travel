@@ -1,0 +1,62 @@
+CREATE OR REPLACE WAREHOUSE my_wh
+WITH WAREHOUSE_SIZE = 'XSMALL'
+auto_suspend = 300
+auto_resume = True
+initially_suspended = true;
+
+USE WAREHOUSE my_wh;
+create or replace database my_db;
+use database my_db;
+
+create or replace schema my_sch;
+use schema my_sch;
+
+create or replace table permanent_fruits(
+fruit_id number,
+fruit_name String,
+price number,
+purchase_date DATE
+
+);
+INSERT INTO permanent_fruits (fruit_id, fruit_name, price, purchase_date) VALUES
+(1, 'apple', 120, '2025-08-01'),
+(2, 'banana', 60, '2025-08-05'),
+(3, 'Mango', 150,'2025-08-10'),
+(4, 'watermelon', 25,'2025-07-28'),
+(5, 'kiwi', 200,'2025-08-02');
+
+SELECT * FROM permanent_fruits;
+
+
+
+
+--Time travel
+
+show tables;
+SELECT * FROM permanent_fruits;
+drop table permanent_fruits;
+undrop table permanent_fruits;
+
+----Look only → SELECT ... AT()
+
+delete from permanent_fruits where Fruit_Name = 'banana';
+select * from permanent_fruits at (OFFSET => -60*5);
+
+delete from permanent_fruits where Fruit_Name = 'kiwi';
+select * from permanent_fruits at (OFFSET => -60*2);
+
+----Recover missing rows in same table → INSERT ... SELECT ... AT()
+
+SELECT * FROM permanent_fruits;
+
+INSERT into permanent_fruits
+SELECT * FROM permanent_fruits AT (OFFSET => -60*155)
+WHERE fruit_id = 2;
+
+SELECT * FROM permanent_fruits;
+
+---Full past copy of table → CLONE ... AT()
+CREATE OR REPLACE TABLE fruits_clone 
+CLONE permanent_fruits AT (OFFSET => -60*175);
+
+SELECT * FROM fruits_clone;
